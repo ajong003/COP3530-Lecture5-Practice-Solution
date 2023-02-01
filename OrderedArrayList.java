@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 @SuppressWarnings("unchecked")
 
 public class OrderedArrayList<T extends Comparable<T>> {
@@ -26,6 +28,43 @@ public class OrderedArrayList<T extends Comparable<T>> {
 	 * @return true if the array list is changed, false if not
 	 */
 	public boolean add(T newEntry) {
+		System.out.println(Arrays.toString(dataArray));
+		System.out.println("numdata" + numData);
+		if(dataArray[0]==null){
+			dataArray[0]=newEntry;
+			numData+=1;
+			return true;
+		}
+		for(int i=0;i<dataArray.length;i++){
+			System.out.println("i : " +i);
+			if(dataArray[i].compareTo(newEntry)==0){
+				System.out.println("Duplicate");
+				return false;
+			}
+			if(dataArray[i].compareTo(newEntry)>0){
+				System.out.println("adding to "+ i);
+				numData+=1;
+				T[] newArray = (T[]) new Comparable[numData];
+				for(int k=0;k<i;k++){
+					newArray[k]=dataArray[k];
+				}
+				System.out.println("Attempting to add entry to" + i);
+				newArray[i]=newEntry;
+				for(int j=i+1;j<numData;j++){
+					newArray[j]=dataArray[j-1];
+				}
+				dataArray=newArray;
+				return true;
+			}
+		}
+		numData+=1;
+		T[] newArray = (T[]) new Comparable[numData];
+		for(int i=0;i<numData-1;i++){
+			newArray[i]=dataArray[i];
+		}
+		newArray[numData-1]=newEntry;
+		dataArray=newArray;
+		return true;
 
 
 
@@ -34,7 +73,9 @@ public class OrderedArrayList<T extends Comparable<T>> {
 
 
 
-		return true;		
+
+
+
 	}
 
 	public String toString() {
